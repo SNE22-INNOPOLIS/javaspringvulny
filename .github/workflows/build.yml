@@ -41,7 +41,7 @@ jobs:
       - name: Synk installation
         run: curl https://static.snyk.io/cli/latest/snyk-linux -o snyk && \
             chmod +x snyk && \
-            sudo mv -f snyk /usr/local/bin/
+            sudo mv -f snyk /usr/local/bin/snyk
             
       - name: Synk integration
         run: SNYK_TOKEN=$SNYK_API_TOKEN && \
