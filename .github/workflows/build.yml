@@ -40,6 +40,5 @@ jobs:
         run: ./gradlew :build
       - name: Synk integration
         run: sudo apt update && sudo apt install -y --reinstall coreutils && \
-          cd .. && \ 
-          chmod +x snyk/snyk_config.sh && \
+          chmod +x ./snyk/snyk_config.sh && \
           ./snyk/snyk_config.sh
