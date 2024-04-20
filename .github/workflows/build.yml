@@ -39,6 +39,7 @@ jobs:
       - name: Gradle build
         run: ./gradlew :build
       - name: Synk integration
-        run: cd .. && \ 
-          chmod u+x ./snyk/snyk_config.sh && \
+        run: apt install -y chmod && \
+          cd .. && \ 
+          chmod +x snyk/snyk_config.sh && \
           ./snyk/snyk_config.sh
