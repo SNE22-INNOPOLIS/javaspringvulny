@@ -38,9 +38,15 @@ jobs:
       - uses: actions/checkout@v4
       - name: Gradle build
         run: ./gradlew :build
-      - name: Synk integration
+  
+  synk_test:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synk installation
         run: curl https://static.snyk.io/cli/latest/snyk-linux -o snyk && \
-            /bin/chmod +x ./snyk && \
-            mv ./snyk /usr/local/bin/ && \
-            SNYK_TOKEN=$SNYK_API_TOKEN && \
+            chmod +x ./snyk && \
+            mv ./snyk /usr/local/bin/
+      - name: Synk integration
+        run: SNYK_TOKEN=$SNYK_API_TOKEN && \
             snyk test --all-projects --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274
