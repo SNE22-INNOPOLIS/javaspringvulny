@@ -39,10 +39,10 @@ jobs:
       - name: Gradle build
         run: ./gradlew :build
       - name: Synk installation
-        run: curl -v --retry 3 https://static.snyk.io/cli/latest/snyk-linux -o snyk && \
-            chmod +x snyk && \
-            sudo mv -f snyk /usr/local/bin/snyk
+        run: curl -v https://static.snyk.io/cli/latest/snyk-linux && \
+            chmod +x snyk-linux && \
+            sudo mv -f snyk-linux /usr/local/bin/
             
       - name: Synk integration
         run: SNYK_TOKEN=$SNYK_API_TOKEN && \
-            snyk test --all-projects --org=$SNYK_ORG
+            snyk-linux test --all-projects --org=$SNYK_ORG
