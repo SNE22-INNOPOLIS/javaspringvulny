@@ -39,7 +39,7 @@ jobs:
       - name: Gradle build
         run: ./gradlew :build
       - name: Synk installation
-        run: curl https://static.snyk.io/cli/latest/snyk-linux && \
+        run: wget https://static.snyk.io/cli/latest/snyk-linux && \
             chmod +x snyk-linux && \
             sudo mv -f snyk-linux /usr/local/bin/
             
