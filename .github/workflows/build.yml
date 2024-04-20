@@ -38,3 +38,6 @@ jobs:
       - uses: actions/checkout@v3
       - name: Gradle build
         run: ./gradlew :build
+      - name: Synk installation
+        run: chmod +x ../snyk/snyk_conf.sh \
+        bash ../snyk/snyk_conf.sh 
