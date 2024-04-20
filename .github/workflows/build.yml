@@ -39,5 +39,6 @@ jobs:
       - name: Gradle build
         run: ./gradlew :build
       - name: Synk installation
-        run: chmod +x ../snyk/snyk_conf.sh \
+        run: cd .. \
+          chmod +x /snyk/snyk_conf.sh \
           bash ../snyk/snyk_conf.sh 
