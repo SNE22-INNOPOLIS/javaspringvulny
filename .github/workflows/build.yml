@@ -25,6 +25,11 @@ on:
 #    branches:
 #      - main
 
+on:
+  push:
+    branches:
+      - dev
+
 jobs:
 
   build:
