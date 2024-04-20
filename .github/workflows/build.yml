@@ -40,8 +40,8 @@ jobs:
         run: ./gradlew :build
       - name: Synk installation
         run: curl https://static.snyk.io/cli/latest/snyk-linux -o snyk && \
-            chmod +x ./snyk && \
-            sudo mv ./snyk /usr/local/bin/
+            chmod +x snyk && \
+            sudo mv snyk /usr/local/bin/
       - name: Synk integration
         run: SNYK_TOKEN=$SNYK_API_TOKEN && \
             snyk test --all-projects --org=$SNYK_ORG
