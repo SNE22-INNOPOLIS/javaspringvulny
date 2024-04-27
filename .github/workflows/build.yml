@@ -31,7 +31,6 @@ on:
       - dev
 
 jobs:
-
   build:
     runs-on: self-hosted
     steps:
@@ -39,10 +38,10 @@ jobs:
       - name: Gradle build
         run: ./gradlew :build
       - name: Synk installation
-        run: wget https://static.snyk.io/cli/latest/snyk-linux &&\
-          chmod +x snyk-linux &&\
+        run: |
+          wget https://static.snyk.io/cli/latest/snyk-linux
+          chmod +x snyk-linux
           sudo mv -f snyk-linux /usr/local/bin/
-
       - name: Synk integration
-        run: SNYK_TOKEN=$SNYK_API_TOKEN &&\
-          snyk-linux test --all-projects --org=$SNYK_ORG
+        run: |
+          SNYK_TOKEN=$SNYK_API_TOKEN snyk-linux test --all-projects --org=$SNYK_ORG
