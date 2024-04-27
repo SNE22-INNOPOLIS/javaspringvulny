@@ -39,7 +39,10 @@ jobs:
       - name: Gradle build
         run: ./gradlew :build
       - name: Synk installation
-        run: whoami
+        run: wget https://static.snyk.io/cli/latest/snyk-linux && \
+            sudo apt-get update && \
+            sudo apt-get install coreutils && chmod +x snyk-linux && \
+            sudo mv -f snyk-linux /usr/local/bin/
 
             
       - name: Synk integration
