@@ -37,11 +37,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Gradle build
-        run: ./gradlew :build && whoami
+        run: ./gradlew :build
       - name: Synk installation
-        run: wget https://static.snyk.io/cli/latest/snyk-linux && \
-            chmod +x snyk-linux && \
-            sudo mv -f snyk-linux /usr/local/bin/
+        run: whoami
 
             
       - name: Synk integration
