@@ -40,6 +40,7 @@ jobs:
         run: ./gradlew :build
   run_sast_scan:
     runs-on: self-hosted
+    needs: build
     steps:
       - name: Install Snyk CLI
         run: |
@@ -58,11 +59,13 @@ jobs:
           path: sast.log
   analyze_scan_results_with_GPT-4:
     runs-on: self-hosted
+    needs: run_sast_scan
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Download a sast results
         uses: actions/download-artifact@v4
+        needs: Upload scan output file
         with:
           name: output-log-file
       - name: Analyze Results with GPT-4
