@@ -34,14 +34,18 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Gradle build
         run: ./gradlew :build
-      - name: Synk installation
+      - name: Install Snyk CLI
         run: |
           wget https://static.snyk.io/cli/latest/snyk-linux
           chmod +x snyk-linux
           sudo mv -f snyk-linux /usr/local/bin/
-      - name: Synk integration
+      - name: Run Snyk scan
         run: |
-          SNYK_TOKEN=$SNYK_API_TOKEN snyk-linux test --all-projects --org=$SNYK_ORG
+          SNYK_TOKEN=$SNYK_API_TOKEN
+          snyk-linux test --all-projects --org=$SNYK_ORG
+        timeout-minutes: 5
+
