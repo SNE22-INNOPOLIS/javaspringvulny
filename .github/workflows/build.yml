@@ -38,15 +38,36 @@ jobs:
         uses: actions/checkout@v4
       - name: Gradle build
         run: ./gradlew :build
+  run sast scan:
+    runs-on: self-hosted
+    steps:
       - name: Install Snyk CLI
         run: |
           wget https://static.snyk.io/cli/latest/snyk-linux
           chmod +x snyk-linux
           sudo mv -f snyk-linux /usr/local/bin/
       - name: Run Snyk scan
-#        timeout-minutes: 4
-        env:
+          env:
           SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
           SNYK_ORG: ${{ secrets.SNYK_ORG }}
-        run: snyk-linux test --all-projects --org=$SNYK_ORG
+        run: snyk-linux test --all-projects --org=$SNYK_ORG >> sast.log
+      - name: Upload scan output file
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-log-file
+          path: sast.log
+  analyze scan results with GPT-4:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download a sast results
+        uses: actions/download-artifact@v4
+        with:
+          name: output-log-file
+      - name: Analyze Results with GPT-4
+        env:
+          OPENAI_API_TOKEN: ${{ secrets.OPENAI_API_TOKEN }}
+        run: |
+          # Example: curl -X POST -H "Authorization: Bearer $OPENAI_API_TOKEN" -d '{"data": "output-log-file"}' https://api.openai.com/v1/analyze
 
