@@ -51,7 +51,9 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
           SNYK_ORG: ${{ secrets.SNYK_ORG }}
-        run: snyk-linux test --all-projects --org=$SNYK_ORG >> sast.log
+        run: |
+          snyk auth
+          snyk-linux test --all-projects --org=$SNYK_ORG >> sast.log
       - name: Upload scan output file
         uses: actions/upload-artifact@v4
         with:
