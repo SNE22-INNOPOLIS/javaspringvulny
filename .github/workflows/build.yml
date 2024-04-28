@@ -44,7 +44,7 @@ jobs:
           chmod +x snyk-linux
           sudo mv -f snyk-linux /usr/local/bin/
       - name: Run Snyk scan
-        timeout-minutes: 5
+        timeout-minutes: 4
         run: |
           SNYK_TOKEN=$SNYK_API_TOKEN
           snyk-linux test --all-projects --org=$SNYK_ORG
