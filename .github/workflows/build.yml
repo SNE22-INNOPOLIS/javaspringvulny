@@ -47,7 +47,7 @@ jobs:
           chmod +x snyk-linux
           sudo mv -f snyk-linux /usr/local/bin/
       - name: Run Snyk scan
-          env:
+        env:
           SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
           SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: snyk-linux test --all-projects --org=$SNYK_ORG >> sast.log
@@ -66,8 +66,11 @@ jobs:
         with:
           name: output-log-file
       - name: Analyze Results with GPT-4
-        env:
-          OPENAI_API_TOKEN: ${{ secrets.OPENAI_API_TOKEN }}
-        run: |
+        uses: riccardolinares/openai-commit@v0.0.1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_TOKEN }}
+          openai-prompt: Provide insights on each line contained in the file output-log-file
+          model: GPT-4
+#        run: |
           # Example: curl -X POST -H "Authorization: Bearer $OPENAI_API_TOKEN" -d '{"data": "output-log-file"}' https://api.openai.com/v1/analyze
 
