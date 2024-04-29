@@ -31,8 +31,8 @@ jobs:
 #          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
 #          SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
-          SNYK_TOKEN=$SNYK_API_TOKEN
-          SNYK_ORG=$SNYK_ORG
+          SNYK_TOKEN=${{ secrets.SNYK_API_TOKEN }}
+          SNYK_ORG=${{ secrets.SNYK_ORG }}
           snyk-linux auth $SNYK_TOKEN
           snyk-linux test --all-projects --org=$SNYK_ORG >> sast.log
       - name: Upload scan output file
