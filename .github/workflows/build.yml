@@ -29,9 +29,9 @@ jobs:
           chmod +x snyk-linux
           sudo mv -f snyk-linux /usr/local/bin/
       - name: Run Snyk scan
-        #env:
-          #SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
-          #SNYK_ORG: ${{ secrets.SNYK_ORG }}
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
+          SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
           snyk-linux auth ${{ secrets.SNYK_API_TOKEN }}
           snyk-linux test --all-projects --org=${{ secrets.SNYK_ORG }} >> sast.log
