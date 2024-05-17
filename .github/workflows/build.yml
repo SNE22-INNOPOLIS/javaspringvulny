@@ -10,6 +10,7 @@ on:
       - dev
 
 jobs:
+
   build:
     runs-on: self-hosted
     steps:
@@ -17,6 +18,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Gradle build
         run: ./gradlew :build
+
   run_sast_scan:
     runs-on: self-hosted
     needs: build
@@ -31,8 +33,6 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
           SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
-#          SNYK_TOKEN=${{ secrets.SNYK_API_TOKEN }}
-#          SNYK_ORG=${{ secrets.SNYK_ORG }}
           snyk-linux auth $SNYK_TOKEN
           snyk-linux test --all-projects --org=$SNYK_ORG >> sast.log
       - name: Upload scan output file
@@ -40,6 +40,7 @@ jobs:
         with:
           name: output-log-file
           path: sast.log
+
   analyze_scan_results_with_GPT-4:
     runs-on: self-hosted
     needs: run_sast_scan
