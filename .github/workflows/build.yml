@@ -35,7 +35,10 @@ jobs:
 #          SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
           snyk-linux auth 292c9ef6-7c83-408c-b63d-0c608cea0e97
-          snyk-linux code test --SNE22/javaspringvulny --severity-threshold=high --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 >> sast.log
+#          snyk-linux code test --SNE22/javaspringvulny --severity-threshold=high --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 >> sast.log
+          git clone https://github.com/SNE22-INNOPOLIS/javaspringvulny.git
+          cd javaspringvulny --severity-threshold=high >> sast.log
+          snyk-linux code test
       - name: Upload scan output file
         uses: actions/upload-artifact@v4
         with:
