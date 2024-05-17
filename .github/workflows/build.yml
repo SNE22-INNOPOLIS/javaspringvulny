@@ -29,12 +29,12 @@ jobs:
           chmod +x snyk-linux
           sudo mv -f snyk-linux /usr/local/bin/
       - name: Run Snyk scan
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
-          SNYK_ORG: ${{ secrets.SNYK_ORG }}
+#        env:
+#          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
+#          SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
-          snyk-linux auth ${{ secrets.SNYK_API_TOKEN }}
-          snyk-linux test --all-projects --org=${{ secrets.SNYK_ORG }} >> sast.log
+          snyk-linux auth 292c9ef6-7c83-408c-b63d-0c608cea0e97
+          snyk-linux test --all-projects --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 >> sast.log
       - name: Upload scan output file
         uses: actions/upload-artifact@v4
         with:
