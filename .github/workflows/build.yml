@@ -28,6 +28,7 @@ jobs:
           wget https://static.snyk.io/cli/latest/snyk-linux
           chmod +x snyk-linux
           sudo mv -f snyk-linux /usr/local/bin/
+          echo synk package successfully installed...
       - name: Run Snyk scan
 #        env:
 #          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
