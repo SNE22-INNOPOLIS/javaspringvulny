@@ -30,7 +30,7 @@ jobs:
           sudo mv -f snyk-linux /usr/local/bin/
           echo "synk package successfully installed..."
       - name: Run Snyk scan
-        shell: bash
+        shell: bash --noprofile --norc -exo pipefail {0}
 #        env:
 #          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
 #          SNYK_ORG: ${{ secrets.SNYK_ORG }}
