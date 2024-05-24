@@ -42,6 +42,7 @@ jobs:
           name: output-log-file
           path: sast.log
 
+
   analyze_scan_results_with_GPT-4:
     runs-on: self-hosted
     needs: run_sast_scan
