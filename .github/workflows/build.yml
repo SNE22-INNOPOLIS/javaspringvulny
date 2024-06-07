@@ -36,12 +36,13 @@ jobs:
 #          SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
           sudo snyk-linux auth 292c9ef6-7c83-408c-b63d-0c608cea0e97
-          sudo snyk-linux code test --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 -d --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high --sarif-file-output=vuln_output
+          sudo snyk-linux code test --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 -d --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high --sarif-file-output=vuln_output.sarif
       - name: Upload scan output file
-        uses: actions/upload-artifact@v4
+        uses: actions/checkout@v4
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v3
         with:
-          name: output-log-file
-          path: vuln_output
+          sarif_file: vuln_output.sarif
 
   analyze_scan_results_with_GPT-4:
     runs-on: self-hosted
@@ -52,7 +53,7 @@ jobs:
       - name: Download a sast results
         uses: actions/download-artifact@v4
         with:
-          name: output-log-file
+          name: vuln_output.sarif
       - name: Analyze Results with GPT-4
         uses: riccardolinares/openai-commit@v0.0.1
         with:
