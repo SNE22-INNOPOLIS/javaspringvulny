@@ -36,7 +36,7 @@ jobs:
 #          SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
           sudo snyk-linux auth 292c9ef6-7c83-408c-b63d-0c608cea0e97
-          sudo snyk-linux code test --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high --json-file-output=sast.log
+          sudo snyk-linux code test --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high > sast.log
       - name: Upload scan output file
         uses: actions/upload-artifact@v4
         with:
