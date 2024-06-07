@@ -31,12 +31,12 @@ jobs:
           echo "synk package successfully installed..."
       - name: Run Snyk scan
         shell: bash
-#        env:
-#          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
-#          SNYK_ORG: ${{ secrets.SNYK_ORG }}
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
+          SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
           sudo snyk-linux auth $SNYK_TOKEN
-          sudo snyk-linux code test --org=$SNYK_ORG -d --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high --json
+          sudo snyk-linux code test --org=$SNYK_ORG --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high --json
 #      - name: Upload scan output file
 #        uses: actions/upload-artifact@v4
 #        with:
