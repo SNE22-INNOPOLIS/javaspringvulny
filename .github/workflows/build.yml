@@ -11,6 +11,16 @@ on:
 
 jobs:
 
+  pass-secret-to-action:
+    runs-on: self-hosted
+    steps:
+    # passing the secret to an action
+      - name: Pass the received secret to an action
+        uses: ./.github/actions/my-action
+        with:
+          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
+          SNYK_ORG: ${{ secrets.SNYK_ORG }} 
+
   build:
     runs-on: self-hosted
     steps:
@@ -29,14 +39,8 @@ jobs:
           chmod +x snyk-linux
           sudo mv -f snyk-linux /usr/local/bin/
           echo "synk package successfully installed..."
-      - name: Pass the received secret to an action
-        uses: ./.github/actions/my-action
-        with:
-          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
-          SNYK_ORG: ${{ secrets.SNYK_ORG }}
       - name: Run Snyk scan
         shell: bash
-          # passing the secret to an action
 #        env:
 #          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
 #          SNYK_ORG: ${{ secrets.SNYK_ORG }}
