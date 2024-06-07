@@ -35,8 +35,8 @@ jobs:
           SNYK_API_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
           SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
-          sudo snyk-linux auth $SNYK_API_TOKEN
-          sudo snyk-linux code test --org=$SNYK_ORG --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high --json
+          sudo snyk-linux auth "$SNYK_API_TOKEN"
+          sudo snyk-linux code test --org="$SNYK_ORG" --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high --json
 #      - name: Upload scan output file
 #        uses: actions/upload-artifact@v4
 #        with:
