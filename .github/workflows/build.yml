@@ -29,14 +29,20 @@ jobs:
           chmod +x snyk-linux
           sudo mv -f snyk-linux /usr/local/bin/
           echo "synk package successfully installed..."
+      - name: Pass the received secret to an action
+        uses: ./.github/actions/my-action
+        with:
+          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
+          SNYK_ORG: ${{ secrets.SNYK_ORG }}
       - name: Run Snyk scan
         shell: bash
-        env:
-          SNYK_API_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
-          SNYK_ORG: ${{ secrets.SNYK_ORG }}
+          # passing the secret to an action
+#        env:
+#          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
+#          SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
           echo "$SNYK_API_TOKEN"
-          sudo snyk-linux auth "$SNYK_API_TOKEN"
+          sudo snyk-linux auth "$SNYK_TOKEN"
           sudo snyk-linux code test --org="$SNYK_ORG" --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high --json
 #      - name: Upload scan output file
 #        uses: actions/upload-artifact@v4
