@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: output-log-file
-          path: vuln.log
+          path: ./vuln.log
 
   analyze_scan_results_with_GPT-4:
     runs-on: self-hosted
