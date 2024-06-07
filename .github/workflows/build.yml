@@ -35,13 +35,14 @@ jobs:
 #          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
 #          SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
+          set -x
           sudo snyk-linux auth 292c9ef6-7c83-408c-b63d-0c608cea0e97
-          sudo snyk-linux code test --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high | > vuln.log
+          sudo snyk-linux code test --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high > vuln.log
       - name: Upload scan output file
         uses: actions/upload-artifact@v4
         with:
           name: output-log-file
-          path: ./vuln.log
+          path: vuln.log
 
   analyze_scan_results_with_GPT-4:
     runs-on: self-hosted
@@ -52,7 +53,7 @@ jobs:
       - name: Download a sast results
         uses: actions/download-artifact@v4
         with:
-          name: vuln_output.sarif
+          name: output-log-file
       - name: Analyze Results with GPT-4
         uses: riccardolinares/openai-commit@v0.0.1
         with:
