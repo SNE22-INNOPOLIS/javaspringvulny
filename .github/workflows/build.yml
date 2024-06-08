@@ -40,7 +40,7 @@ jobs:
           sudo touch test.file
           echo "directory is writable.."
           sudo snyk-linux code test --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high --json-file-output=snyk.json
-#       - name: Upload scan output file
+      - name: Upload scan output file
         uses: actions/upload-artifact@v4
         with:
           name: output-log-file
