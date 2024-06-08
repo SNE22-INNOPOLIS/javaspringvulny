@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: output-log-file
-          sarif_file: snyk.json
+          path: snyk.json
 
   analyze_scan_results_with_GPT-4:
     runs-on: self-hosted
