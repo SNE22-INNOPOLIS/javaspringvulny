@@ -43,7 +43,7 @@ jobs:
       - name: Upload scan output file
         uses: github/codeql-action/upload-sarif@v3
         with:
-#          name: output-log-file
+          name: output-log-file
           sarif_file: $GITHUB_WORKSPACE/snyk.sarif
 
   analyze_scan_results_with_GPT-4:
