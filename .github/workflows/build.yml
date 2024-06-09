@@ -60,7 +60,7 @@ jobs:
       - name: Analyze Results with GPT-4
         uses: riccardolinares/openai-commit@v0.0.1
         with:
-          openai-api-key: ${{ secrets.OPENAI_API_TOKEN }}
+          openai-api-key: sk-proj-LrqNHv7pEpVUxTtQfXT9T3BlbkFJoHI3eqsOnFUzdYLQozDR
           openai-prompt: Provide insights on each line contained in the file output-log-file
           model: GPT-4
 #        run: |
