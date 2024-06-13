@@ -57,10 +57,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: output-log-file
-      - name: load python
-        # uses: actions/setup-python@v4
-        # with:
-        #   python-version: '3.10' # install the python version needed
+      # - name: load python
+      #   # uses: actions/setup-python@v4
+      #   # with:
+      #   #   python-version: '3.10' # install the python version needed
       - name: Analyze Results with GPT-4
         env:
           SLACK_WEBHOOKS: ${{ secrets.SLACK_WEBHOOKS }}
