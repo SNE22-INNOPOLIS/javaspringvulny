@@ -12,7 +12,7 @@ with open('snyk.json', 'r') as file:
 snyk_data_str = json.dumps(snyk_data)
 
 # setting up the OpenAI API key, API URL and headers
-OPENAPI_KEY = '${{ OPENAI_API_TOKEN}}'
+OPENAPI_KEY = '${{ secrets.OPENAI_API_TOKEN}}'
 api_url = "https://api.openai.com/v1/chat/completions"
 headers = {
     "Content-Type": "application/json",
