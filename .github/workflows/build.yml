@@ -58,11 +58,15 @@ jobs:
         with:
           name: output-log-file
       - name: Analyze Results with GPT-4
-        uses: riccardolinares/openai-commit@v0.0.1
-        with:
-          openai-api-key: sk-proj-LrqNHv7pEpVUxTtQfXT9T3BlbkFJoHI3eqsOnFUzdYLQozDR
-          openai-prompt: Provide insights on each line contained in the file output-log-file
-          model: GPT-4
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3
+          python3 genAI_analysis_to_slack.py
+
+        # uses: riccardolinares/openai-commit@v0.0.1
+        # with:
+        #   openai-api-key: sk-proj-LrqNHv7pEpVUxTtQfXT9T3BlbkFJoHI3eqsOnFUzdYLQozDR
+        #   openai-prompt: Provide insights on each line contained in the file output-log-file
+        #   model: GPT-4
 #        run: |
           # Example: curl -X POST -H "Authorization: Bearer $OPENAI_API_TOKEN" -d '{"data": "output-log-file"}' https://api.openai.com/v1/analyze
 

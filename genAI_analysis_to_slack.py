@@ -12,7 +12,7 @@ with open('snyk.json', 'r') as file:
 snyk_data_str = json.dumps(snyk_data)
 
 # setting up the OpenAI API key, API URL and headers
-OPENAPI_KEY = '<PLACE_YOUR_API_KEY_HERE>'
+OPENAPI_KEY = '${{ OPENAI_API_TOKEN}}'
 api_url = "https://api.openai.com/v1/chat/completions"
 headers = {
     "Content-Type": "application/json",
@@ -38,7 +38,7 @@ if response.status_code == 200:
     # print("Analysis:\n", analysis)
 
     # setting up the Slack webhook URL
-    slack_webhook_url = "<PLACE_YOUR_SLACK_WEB_HOOK_URL_HERE>"
+    slack_webhook_url = "${{ secrets.SLACK_WEBHOOKS }}"
 
     # creating the payload for the Slack request
     slack_payload = {
