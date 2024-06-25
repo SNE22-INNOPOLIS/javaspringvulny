@@ -1,8 +1,4 @@
 name:  Build
-#on:
-#  pull_request:
-#    branches:
-#      - main
 
 on:
   push:
@@ -31,15 +27,15 @@ jobs:
           echo "synk package successfully installed..."
       - name: Run Snyk scan
         shell: bash
-#        env:
-#          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
-#          SNYK_ORG: ${{ secrets.SNYK_ORG }}
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
+          SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
           set -x
-          sudo snyk-linux auth 292c9ef6-7c83-408c-b63d-0c608cea0e97
+          sudo snyk-linux auth SNYK_TOKEN
           sudo touch test.file
           echo "directory is writable.."
-          sudo snyk-linux code test --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high --json-file-output=snyk.json
+          sudo snyk-linux code test --org=SNYK_ORG --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=high --json-file-output=snyk.json
         continue-on-error: true
       - name: Upload scan output file
         uses: actions/upload-artifact@v4
@@ -47,9 +43,70 @@ jobs:
           name: output-log-file
           path: snyk.json
 
+  deploy_to_test_env:
+    runs-on: [self-hosted, test_env]
+    needs: run_sast_scan
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # - name: Set up JDK 11
+      #   uses: actions/setup-java@v4
+      #   with:
+      #     java-version: '11'
+
+      # - name: Build with Maven
+      #   run: mvn clean package
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: docker build . -t ${{ secrets.DOCKER_HUB_USERNAME }}/your-java-app:${{ github.sha }}
+
+      - name: Push Docker image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/your-java-app:${{ github.sha }}
+
+      - name: Deploy to EC2
+        env:
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_USER }}
+          KEY: ${{ secrets.EC2_KEY }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_IMAGE: ${{ secrets.DOCKER_HUB_USERNAME }}/your-java-app:${{ github.sha }}
+        run: |
+          echo "${KEY}" > key.pem
+          chmod 400 key.pem
+          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST << 'EOF'
+            docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+            docker pull $DOCKER_IMAGE
+            docker stop your-java-app || true
+            docker rm your-java-app || true
+            docker run -d --name your-java-app -p 9000:9000 $DOCKER_IMAGE
+          EOF
+
+  run_dast_scan:
+    runs-on: [self-hosted, test_env]
+    needs: deploy_to_test_env
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.10.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
+          target: 'https://localhost:9000'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
+
+
   analyze_scan_results_with_GPT-4:
     runs-on: self-hosted
-    needs: run_sast_scan
+    needs: run_dast_scan
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -57,10 +114,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: output-log-file
-      # - name: load python
-      #   # uses: actions/setup-python@v4
-      #   # with:
-      #   #   python-version: '3.10' # install the python version needed
+
       - name: Analyze Results with GPT-4
         env:
           SLACK_WEBHOOKS: ${{ secrets.SLACK_WEBHOOKS }}
@@ -68,12 +122,3 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y python3
           python3 genAI_analysis_to_slack.py
-
-        # uses: riccardolinares/openai-commit@v0.0.1
-        # with:
-        #   openai-api-key: sk-proj-LrqNHv7pEpVUxTtQfXT9T3BlbkFJoHI3eqsOnFUzdYLQozDR
-        #   openai-prompt: Provide insights on each line contained in the file output-log-file
-       #   model: GPT-4
-#        run: |
-          # Example: curl -X POST -H "Authorization: Bearer $OPENAI_API_TOKEN" -d '{"data": "output-log-file"}' https://api.openai.com/v1/analyze
-
