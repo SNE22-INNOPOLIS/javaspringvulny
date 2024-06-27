@@ -78,7 +78,7 @@ jobs:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_IMAGE: ${{ secrets.DOCKER_HUB_USERNAME }}/vuln-java-app:${{ github.sha }}
         run: |
-          sudo docker pull $DOCKER_IMAGE
+          sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/vuln-java-app:1.1
           sudo docker stop vuln-java-app || true
           sudo docker rm vuln-java-app || true
           sudo docker run -d --name vuln-java-app -p 9000:9000 $DOCKER_IMAGE
