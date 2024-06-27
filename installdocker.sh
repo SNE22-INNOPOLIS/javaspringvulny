@@ -3,7 +3,7 @@
 # Make sure to run a sudo chmod +x installdocker.sh to make this script executable
 
 #uninstall existing docker installation
-sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+sudo apt-get purge -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
 sudo rm -rf /var/lib/docker
 sudo rm -rf /var/lib/containerd
 
