@@ -50,7 +50,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Install docker
-        uses: papodaca/install-docker-action@main
+        run: sudo chmod +x installdocker.sh && bash installdocker.sh
 
       # - name: Set up JDK 11
       #   uses: actions/setup-java@v4
