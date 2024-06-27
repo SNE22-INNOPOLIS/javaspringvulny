@@ -51,9 +51,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Install docker
         run: |
+          set -x
           sudo chmod +x installdocker.sh 
           bash installdocker.sh
-        continue-on-error: true
+        
 
       # - name: Set up JDK 11
       #   uses: actions/setup-java@v4
