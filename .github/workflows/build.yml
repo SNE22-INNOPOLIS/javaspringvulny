@@ -89,7 +89,7 @@ jobs:
     needs: deploy_to_test_env
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: master
       - name: ZAP Scan
