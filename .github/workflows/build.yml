@@ -61,13 +61,13 @@ jobs:
       #   run: mvn clean package
 
       - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+        run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | sudo docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
       - name: Build Docker image
-        run: docker build . -t ${{ secrets.DOCKER_HUB_USERNAME }}/your-java-app:${{ github.sha }}
+        run: sudo docker build . -t ${{ secrets.DOCKER_HUB_USERNAME }}/your-java-app:${{ github.sha }}
 
       - name: Push Docker image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/your-java-app:${{ github.sha }}
+        run: sudo docker push ${{ secrets.DOCKER_HUB_USERNAME }}/your-java-app:${{ github.sha }}
 
       - name: Deploy to EC2
         env:
@@ -80,11 +80,11 @@ jobs:
           echo "${KEY}" > key.pem
           chmod 400 key.pem
           ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST << 'EOF'
-            docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-            docker pull $DOCKER_IMAGE
-            docker stop your-java-app || true
-            docker rm your-java-app || true
-            docker run -d --name your-java-app -p 9000:9000 $DOCKER_IMAGE
+            sudo docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+            sudo docker pull $DOCKER_IMAGE
+            sudo docker stop your-java-app || true
+            sudo docker rm your-java-app || true
+            sudo docker run -d --name your-java-app -p 9000:9000 $DOCKER_IMAGE
           EOF
 
   run_dast_scan:
