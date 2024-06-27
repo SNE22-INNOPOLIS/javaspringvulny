@@ -32,10 +32,10 @@ jobs:
           SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
           set -x
-          sudo snyk-linux auth SNYK_TOKEN
+          sudo snyk-linux auth $SNYK_TOKEN
           sudo touch test.file
           echo "directory is writable.."
-          sudo snyk-linux code test --org=SNYK_ORG --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=critical --json-file-output=snyk.json
+          sudo snyk-linux code test --org=$SNYK_ORG --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=critical --json-file-output=snyk.json
         continue-on-error: true
       - name: Upload scan output file
         uses: actions/upload-artifact@v4
