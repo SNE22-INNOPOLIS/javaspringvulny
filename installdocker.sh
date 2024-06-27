@@ -1,3 +1,4 @@
+#!/bin/bash
 # Docker Installation Script
 # Make sure to run a sudo chmod +x installdocker.sh to make this script executable
 
