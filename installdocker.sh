@@ -6,11 +6,7 @@ for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
 
 #Update the apt package index and install packages to allow apt to use a repository over HTTPS:
 sudo apt-get update
-sudo apt-get install -y \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
+sudo apt-get install -y ca-certificates curl gnupg lsb-release || true
     
 #Add Docker’s official GPG key:    
 sudo mkdir -m 0755 -p /etc/apt/keyrings
