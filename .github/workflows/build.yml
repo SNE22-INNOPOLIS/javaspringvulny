@@ -90,16 +90,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: ZAP Scan
-        uses: zaproxy/action-full-scan@v0.10.0
-        with:
-          target: 'https://localhost:9000'
-        continue-on-error: true
-      # - name: Upload scan output file
-      #   uses: actions/upload-artifact@v4
+      # - name: ZAP Scan
+      #   uses: zaproxy/action-full-scan@v0.10.0
       #   with:
-      #     name: output-log-file
-      #     path: snyk.json
+      #     target: 'https://localhost:9000'
+      #   continue-on-error: true
+      # # - name: Upload scan output file
+      # #   uses: actions/upload-artifact@v4
+      # #   with:
+      # #     name: output-log-file
+      # #     path: snyk.json
+      - name: Install OWASP ZAP
+        run: docker run -t owasp/zap2docker-stable zap-baseline.py -t http://localhost:9000
+
+        # run: |
+        #   sudo apt-get update
+        #   sudo apt install zaproxy -y
+
+          
+
+       
 
 
 
