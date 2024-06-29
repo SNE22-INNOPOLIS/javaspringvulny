@@ -101,17 +101,13 @@ jobs:
       # #     name: output-log-file
       # #     path: snyk.json
       - name: Install OWASP ZAP
-        run: sudo docker run -t zaproxy/zap-stable zap-baseline.py -t http://localhost:9000
+        run: |
+          sudo docker pull zaproxy/zap-stable
+          sudo docker run -t zaproxy/zap-stable zap-baseline.py -t http://localhost:9000
 
         # run: |
         #   sudo apt-get update
         #   sudo apt install zaproxy -y
-
-          
-
-       
-
-
 
   analyze_scan_results_with_GPT-4:
     runs-on: self-hosted
