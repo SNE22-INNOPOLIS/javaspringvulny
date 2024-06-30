@@ -84,11 +84,6 @@ jobs:
           sudo docker image pull ${{ secrets.DOCKER_HUB_USERNAME }}/vuln-java-app:1.1
           sudo docker run -d --name vuln-java-app -p 9000:9000 ${{ secrets.DOCKER_HUB_USERNAME }}/vuln-java-app:1.1
 
-      - name: Run DAST scan
-        run: |
-          sudo docker pull zaproxy/zap-stable
-          sudo docker run -t zaproxy/zap-stable zap-baseline.py -t https://localhost:9000
-
   run_dast_scan:
     runs-on: [self-hosted, test_env]
     needs: deploy_to_test_env
