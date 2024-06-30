@@ -108,7 +108,7 @@ jobs:
       - name: Install OWASP ZAP
         run: |
           sudo docker pull zaproxy/zap-stable
-          sudo docker run -t zaproxy/zap-stable zap-baseline.py -t https://${{ secrets.EC2_HOST }}:9000
+          sudo docker run -t zaproxy/zap-stable zap-baseline.py -t https://54.197.115.13:9000
 
         # run: |
         #   sudo apt-get update
