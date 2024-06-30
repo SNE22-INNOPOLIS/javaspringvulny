@@ -111,7 +111,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: output-log-file
+      - name: Download dast results
+        uses: actions/download-artifact@v4
+        with:
           name: dast-log-file
+
 
       - name: Analyze Results with GPT-4
         env:
