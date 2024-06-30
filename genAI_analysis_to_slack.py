@@ -5,12 +5,19 @@ import json
 import requests
 import os
 
-# loading the snyk.json file
-with open('snyk.json', 'r') as file:
-    snyk_data = json.load(file)
+# loading the sast.json file
+with open('sast.json', 'r') as file:
+    sast_data = json.load(file)
 
-# converting the JSON data to a string
-snyk_data_str = json.dumps(snyk_data)
+# converting the sast JSON data to a string
+sast_data_str = json.dumps(sast_data)
+
+# loading the dast.json file
+with open('dast.json', 'r') as file:
+    dast_data = json.load(file)
+
+# converting the dast JSON data to a string
+dast_data_str = json.dumps(dast_data)
 
 # setting up the OpenAI API key, API URL and headers
 OPENAPI_KEY = os.environ['OPENAI_API_TOKEN']
@@ -24,7 +31,7 @@ headers = {
 payload = {
     "model": "gpt-4o",
     "messages": [
-        {"role": "user", "content": f"Start with summarizing this:\n{snyk_data_str} with only the lines of the code that are vulnerable. Add the vulnerability for each lines of code. Use fun emojis to indicate the severity of each vulnerability"}
+        {"role": "user", "content": f"Analyze this SAST data: {sast_data_str} and DAST data: {dast_data_str}. Provide a unified result of the vulnerabilities beautifully, detailing each line of code. Use fun emojis to indicate the severity of each vulnerability."}
     ]
 }
 
@@ -43,7 +50,7 @@ if response.status_code == 200:
 
     # creating the payload for the Slack request
     slack_payload = {
-        "text": f"Here is the analysis of the Snyk scan results:\n{analysis_data}"
+        "text": f"{analysis_data}"
     }
 
     # sending the analysis data to Slack
@@ -51,7 +58,7 @@ if response.status_code == 200:
 
     # checking if the Slack request was successful
     if slack_response.status_code == 200:
-        print("Great job! Analysis data sent to Slack successfully.")
+        print("Great job! Analysis data was sent to Slack successfully.")
     else:
         print(f"Failed to send analysis data to Slack with status code: {slack_response.status_code}")
         print("Slack response:", slack_response.text)
