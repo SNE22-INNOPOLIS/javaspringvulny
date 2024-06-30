@@ -8,7 +8,7 @@ on:
 jobs:
 
   build:
-    runs-on: self-hosted
+    runs-on: [self-hosted, runner]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -16,7 +16,7 @@ jobs:
         run: ./gradlew :build
 
   run_sast_scan:
-    runs-on: self-hosted
+    runs-on: [self-hosted, runner]
     needs: build
     steps:
       - name: Install Snyk CLI
@@ -102,7 +102,7 @@ jobs:
           path: /home/${{ secrets.EC2_USER }}/dast.json 
 
   analyze_scan_results_with_GPT-4:
-    runs-on: self-hosted
+    runs-on: [self-hosted, test_env]
     needs: run_dast_scan
     steps:
       - name: Checkout code
@@ -111,6 +111,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: output-log-file
+          name: dast-log-file
 
       - name: Analyze Results with GPT-4
         env:
