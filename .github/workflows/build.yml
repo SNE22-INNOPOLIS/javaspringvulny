@@ -31,17 +31,16 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
           SNYK_ORG: ${{ secrets.SNYK_ORG }}
         run: |
-          set -x
-          sudo snyk-linux auth $SNYK_TOKEN
+          sudo snyk-linux auth ${{ secrets.SNYK_API_TOKEN }}
           sudo touch test.file
           echo "directory is writable.."
-          sudo snyk-linux code test --org=$SNYK_ORG --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=critical --json-file-output=snyk.json
+          sudo snyk-linux code test --org=${{ secrets.SNYK_ORG }} --project-name=SNE22-INNOPOLIS/javaspringvulny --severity-threshold=critical --json-file-output=sast.json
         continue-on-error: true
       - name: Upload scan output file
         uses: actions/upload-artifact@v4
         with:
           name: output-log-file
-          path: snyk.json
+          path: sast.json
 
   deploy_to_test_env:
     runs-on: [self-hosted, test_env]
@@ -115,7 +114,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dast-log-file
-
 
       - name: Analyze Results with GPT-4
         env:
