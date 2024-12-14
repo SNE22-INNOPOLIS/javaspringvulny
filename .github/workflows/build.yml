@@ -25,7 +25,7 @@ jobs:
           chmod +x snyk-linux
           sudo mv -f snyk-linux /usr/local/bin/
           echo "synk package successfully installed..."
-      - name: Run Snyk scan
+      - name: Run Snyk scan Javaspring
         shell: bash
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
@@ -34,13 +34,32 @@ jobs:
           sudo snyk-linux auth 292c9ef6-7c83-408c-b63d-0c608cea0e97
           sudo touch test.file
           echo "directory is writable.."
-          sudo snyk-linux code test --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 --project-name=SNE22-INNOPOLIS/javaspringvulny --project-name=SNE22-INNOPOLIS/DVNA --json-file-output=sast.json
+          sudo snyk-linux code test --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 --project-name=SNE22-INNOPOLIS/javaspringvulny --json-file-output=sast_javaspring.json
         continue-on-error: true
+
       - name: Upload scan output file
         uses: actions/upload-artifact@v4
         with:
-          name: output-log-file
-          path: sast.json
+          name: output-log-file-javaspring
+          path: sast_javaspring.json
+          
+      - name: Run Snyk scan DVNA
+        shell: bash
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
+          SNYK_ORG: ${{ secrets.SNYK_ORG }}
+        run: |
+          sudo snyk-linux auth 292c9ef6-7c83-408c-b63d-0c608cea0e97
+          sudo touch test.file
+          echo "directory is writable.."
+          sudo snyk-linux code test --org=78b2f53f-b8ed-4a42-940f-60f8f8f18274 --project-name=SNE22-INNOPOLIS/DVNA --json-file-output=sast_dvna.json
+        continue-on-error: true
+        
+      - name: Upload scan output file
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-log-file-dvna
+          path: sast_dvna.json
 
   deploy_to_test_env:
     runs-on: [self-hosted, test_env]
@@ -106,10 +125,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Download sast results
+      - name: Download sast results 1
         uses: actions/download-artifact@v4
         with:
-          name: output-log-file
+          name: output-log-file-dvna
+
+      - name: Download sast results 2
+        uses: actions/download-artifact@v4
+        with:
+          name: output-log-file-javaspring
       - name: Download dast results
         uses: actions/download-artifact@v4
         with:
