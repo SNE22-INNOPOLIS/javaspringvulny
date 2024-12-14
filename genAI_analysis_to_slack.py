@@ -65,3 +65,5 @@ if response.status_code == 200:
 else:
     print(f"Request to OpenAI API failed with status code: {response.status_code}")
     print("OpenAI response:", response.text)
+
+exit()
