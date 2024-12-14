@@ -5,12 +5,17 @@ import json
 import requests
 import os
 
-# loading the sast.json file
-with open('sast.json', 'r') as file:
-    sast_data = json.load(file)
+# Load data from sast_dvna.json
+with open('sast_dvna.json', 'r') as file_dvna:
+    sast_dvna_data = json.load(file_dvna)
+
+# Load data from sast_javaspring.json
+with open('sast_javaspring.json', 'r') as file_javaspring:
+    sast_javaspring_data = json.load(file_javaspring)
 
 # converting the sast JSON data to a string
-sast_data_str = json.dumps(sast_data)
+sast_data_str1 = json.dumps(sast_javaspring_data)
+sast_data_str2 = json.dumps(sast_dvna_data)
 
 # loading the dast.json file
 with open('dast.json', 'r') as file:
@@ -31,7 +36,7 @@ headers = {
 payload = {
     "model": "gpt-4o",
     "messages": [
-        {"role": "user", "content": f"Analyze this SAST data: {sast_data_str} and DAST data: {dast_data_str}. Provide a unified result of the vulnerabilities beautifully, detailing each line of code. The vulnerabilities should be categorized into SAST and DAST sections. Use fun emojis to indicate the severity of each vulnerability. Include a summary of all vulnerabilities and a recommendations section for fixing the vulnerabilities at the end of the feedback. Overall, format the feedback for presentation in a slack channel."}
+        {"role": "user", "content": f"Analyze this SAST data: {sast_data_str1}, {sast_data_str2} and DAST data: {dast_data_str}. Provide a unified result of the vulnerabilities beautifully, detailing each line of code. The vulnerabilities should be categorized into SAST and DAST sections. Use fun emojis to indicate the severity of each vulnerability. Include a summary of all vulnerabilities and a recommendations section for fixing the vulnerabilities at the end of the feedback. Overall, format the feedback for presentation in a slack channel. Make it understandable by anyone."}
     ]
 }
 
