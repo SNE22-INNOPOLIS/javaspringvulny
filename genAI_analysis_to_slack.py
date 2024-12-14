@@ -78,8 +78,8 @@ if response1.status_code == 200:
         print(f"Failed to send analysis data to Slack with status code: {slack_response.status_code}")
         print("Slack response:", slack_response.text)
 else:
-    print(f"Request to OpenAI API failed with status code: {response.status_code}")
-    print("OpenAI response:", response.text)
+    print(f"Request to OpenAI API failed with status code: {response1.status_code}")
+    print("OpenAI response:", response1.text)
 
 # Checking if the request was successful
 if response2.status_code == 200:
@@ -106,7 +106,7 @@ if response2.status_code == 200:
         print(f"Failed to send analysis data to Slack with status code: {slack_response.status_code}")
         print("Slack response:", slack_response.text)
 else:
-    print(f"Request to OpenAI API failed with status code: {response.status_code}")
-    print("OpenAI response:", response.text)
+    print(f"Request to OpenAI API failed with status code: {response2.status_code}")
+    print("OpenAI response:", response2.text)
 
 exit()
