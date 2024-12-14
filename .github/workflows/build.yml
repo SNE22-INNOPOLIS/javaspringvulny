@@ -92,7 +92,7 @@ jobs:
       - name: RUN OWASP ZAP
         run: |
           sudo docker pull zaproxy/zap-stable
-          sudo docker run -t zaproxy/zap-stable zap-baseline.py -t https://${{ secrets.EC2_HOST }}:9000 | jq -R -s '.' > dast.json
+          sudo docker run -d -t zaproxy/zap-stable zap-baseline.py -t https://${{ secrets.EC2_HOST }}:9000 | jq -R -s '.' > dast.json
         continue-on-error: true
       - name: Upload scan output file
         uses: actions/upload-artifact@v4
