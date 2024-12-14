@@ -50,8 +50,8 @@ payload2 = {
 
 
 # Sending the request to the OpenAI API
-response1 = requests.post(api_url, headers=headers, json=payload)
-response2 = requests.post(api_url, headers=headers, json=payload)
+response1 = requests.post(api_url, headers=headers, json=payload1)
+response2 = requests.post(api_url, headers=headers, json=payload2)
 
 # Checking if the request was successful
 if response1.status_code == 200:
