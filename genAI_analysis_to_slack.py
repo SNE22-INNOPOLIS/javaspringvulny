@@ -36,7 +36,7 @@ headers = {
 payload = {
     "model": "gpt-4o",
     "messages": [
-        {"role": "user", "content": f"Analyze this SAST data: {sast_data_str1}, {sast_data_str2} and DAST data: {dast_data_str}. Provide a unified result of the vulnerabilities beautifully, detailing each line of code. The vulnerabilities should be categorized into SAST and DAST sections. Use fun emojis to indicate the severity of each vulnerability. Include a summary of all vulnerabilities and a recommendations section for fixing the vulnerabilities at the end of the feedback. Overall, format the feedback for presentation in a slack channel. Make it understandable by anyone."}
+        {"role": "user", "content": f"Analyze this SAST data: {sast_data_str1}, {sast_data_str2} and DAST data: {dast_data_str}. Provide a unified result of the vulnerabilities beautifully, detailing each line of code. The vulnerabilities should be categorized into SAST and DAST sections. Further separate the SAST results by project respectively. Use fun emojis to indicate the severity of each vulnerability. Include a summary of all vulnerabilities and a recommendations section for fixing the vulnerabilities at the end of the feedback. Overall, format the feedback for presentation in a slack channel. Make it understandable by anyone."}
     ]
 }
 
