@@ -66,6 +66,9 @@ dependencies {
 
     compileOnly("org.projectlombok:lombok:1.18.10")
     annotationProcessor("org.projectlombok:lombok:1.18.22")
+
+    // Introduce Log4j2 vulnerable dependency
+    implementation("org.apache.logging.log4j:log4j-core:2.14.1")
 }
 
 configurations.implementation {
