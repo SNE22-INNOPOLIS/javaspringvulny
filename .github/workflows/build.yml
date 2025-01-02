@@ -122,6 +122,6 @@ jobs:
           SLACK_WEBHOOKS: ${{ secrets.SLACK_WEBHOOKS }}
           OPENAI_API_TOKEN: ${{ secrets.OPENAI_API_TOKEN }}
         run: |
-          sudo apt-get update && sudo apt-get install -y python3
+          sudo apt-get update && sudo apt-get install -y python3 || true
           python3 genAI_analysis_to_slack.py
           
